@@ -142,6 +142,41 @@ df = pd.DataFrame(flat_samples, columns=columns)
 df.to_csv('generated_samples.csv', index=False)
 ```
 
+### Evaluation
+
+```python
+import pandas as pd
+import numpy as np
+from sdmetrics.reports.single_table import QualityReport
+
+with open(os.path.join(DATA_DIR, 'metadata.json'), 'r') as f:
+    multi_metadata = json.load(f)
+raw_cols = multi_metadata['tables']['historical']['columns']
+sdmetrics_metadata = {'columns': {}}
+for col, info in raw_cols.items():
+    if col in ['Id', 'Date', 'Store']:
+        continue
+    sdtype = info['sdtype']
+    sdmetrics_metadata['columns'][col] = {'sdtype': sdtype}
+    
+real = pd.read_csv(os.path.join(DATA_DIR, 'historical.csv'))
+syn = pd.read_csv(os.path.join(CKPT_DIR, 'generated_samples.csv'))
+
+real = real.drop(columns=['Id', 'Date', 'Store'], errors='ignore')
+syn = syn.drop(columns=['Date'], errors='ignore')
+syn['Customers'] = syn['Customers'].astype(int)
+syn = syn[real.columns]
+
+report = QualityReport()
+report.generate(real, syn, sdmetrics_metadata)
+print(f"Overall Quality Score: {report.get_score():.4f}")
+print(report.get_properties())
+
+# 컬럼별 점수
+report.get_details(property_name='Column Shapes')
+report.get_details(property_name='Column Pair Trends')
+```
+
 ---
 
 ## References
