@@ -1,0 +1,87 @@
+{
+    "tables": {
+        "store": {
+            "columns": {
+                "CompetitionOpenSinceYear": {
+                    "sdtype": "numerical",
+                    "computer_representation": "Int64"
+                },
+                "CompetitionOpenSinceMonth": {
+                    "sdtype": "numerical",
+                    "computer_representation": "Int64"
+                },
+                "CompetitionDistance": {
+                    "sdtype": "numerical",
+                    "computer_representation": "Int64"
+                },
+                "Promo2": {
+                    "sdtype": "boolean"
+                },
+                "Promo2SinceYear": {
+                    "sdtype": "numerical",
+                    "computer_representation": "Int64"
+                },
+                "Promo2SinceWeek": {
+                    "sdtype": "numerical",
+                    "computer_representation": "Int64"
+                },
+                "Store": {
+                    "sdtype": "id"
+                },
+                "StoreType": {
+                    "sdtype": "categorical"
+                },
+                "Assortment": {
+                    "sdtype": "categorical"
+                },
+                "PromoInterval": {
+                    "sdtype": "categorical"
+                }
+            },
+            "primary_key": "Store"
+        },
+        "historical": {
+            "columns": {
+                "Date": {
+                    "sdtype": "datetime",
+                    "datetime_format": "%Y-%m-%d"
+                },
+                "Store": {
+                    "sdtype": "id"
+                },
+                "DayOfWeek": {
+                    "sdtype": "categorical"
+                },
+                "Promo": {
+                    "sdtype": "categorical"
+                },
+                "StateHoliday": {
+                    "sdtype": "categorical"
+                },
+                "Id": {
+                    "sdtype": "id"
+                },
+                "Open": {
+                    "sdtype": "categorical"
+                },
+                "SchoolHoliday": {
+                    "sdtype": "categorical"
+                },
+                "Customers": {
+                    "sdtype": "numerical",
+                    "computer_representation": "Int64"
+                }
+            },
+            "primary_key": "Id"
+        }
+    },
+    "relationships": [
+        {
+            "parent_table_name": "store",
+            "parent_primary_key": "Store",
+            "child_table_name": "historical",
+            "child_foreign_key": "Store"
+        }
+    ],
+    "METADATA_SPEC_VERSION": "MULTI_TABLE_V1"
+}
